@@ -34,18 +34,17 @@ Description:
 		ToDo:
 		- setUserPort()
 		- setUserAgent()
-		- HTTP_CLIENT_IP <- doch noch mal als erste abfrage einbauen.
-  	- Description im Kopf der Class
-		
+		- HTTP_CLIENT_IP <- doch noch mal als Erste abfrage einbauen.
+		- Description im Kopf der Class		
 		*/
 		
 		function __construct(){
 
-      $this->setHttpHeaders();
-		  $this->setUserIp();
-		  $this->setUserAgent();
+			$this->setHttpHeaders();
+			$this->setUserIp();
+			$this->setUserAgent();
 
-    }
+		}
 		//setzen des Haeders für weitere verarbeitung 
 		protected function setHttpHeaders($httpHeaders = null /*default Wert*/){
 			
@@ -70,7 +69,7 @@ Description:
 
 		
 		// Ermittelung der IP
-    protected function setUserIp($userIp = null /*default Wert*/){
+		protected function setUserIp($userIp = null /*default Wert*/){
 			// "HTTP_CLIENT_IP" lass ich mal aussen vor weiß nicht was das genau ausgibt
 			
 			if(!empty($userIp))
@@ -130,6 +129,6 @@ Description:
 		
 	}	
 	
-	$test = new visitorInformation();
-	echo $test->getUserAgent();
+	$visitor = new visitorInformation();
+	echo $visitor->getUserAgent();
 ?>
