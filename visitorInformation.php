@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 ##  Autor: Jochen Mandl & Jürgen Kiel
 ##	E-Mail: 
 ##	
