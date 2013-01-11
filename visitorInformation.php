@@ -8,8 +8,6 @@
 
 Description:
 
-
-
 */
     class visitorInformation
     {	
