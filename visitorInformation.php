@@ -28,7 +28,7 @@ Description:
 			HTTP_ACCEPT_LANGUAGE, HTTP_ACCEPT_CHARSET, HTTP_COOKIE,
 			HTTP_CLIENT_IP, HTTP_X_FORWARDED_FOR
 		*/
-    	protected $httpHeaders; 
+    		protected $httpHeaders; 
 		
 		/*
 		ToDo:
