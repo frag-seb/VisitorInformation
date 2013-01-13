@@ -5,7 +5,7 @@
 ##	
 ##	Datum 20.01.2013
 ##	Version 1.0	
-##
+##	Bemerkung: lauffähig, noch viel zu implementieren.
 
 Description:
 
