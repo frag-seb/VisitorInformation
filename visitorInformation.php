@@ -23,6 +23,10 @@ Description:
 		
 		protected $userAgent = null;
 		
+		// User Operating System
+		
+		protected $userOs = null;
+		
 		/*	
 			HTTP_HOST, HTTP_CONNECTION, HTTP_USER_AGENT, 
 			HTTP_ACCEPT, HTTP_REFERER, HTTP_ACCEPT_ENCODING, 
@@ -30,6 +34,9 @@ Description:
 			HTTP_CLIENT_IP, HTTP_X_FORWARDED_FOR
 		*/
     		protected $httpHeaders; 
+    		
+    		//store information from $_SERVER['HTTP_USER_AGENT']
+    		private $uAgentInfo;
 		
 		/*
 		ToDo:
@@ -52,6 +59,7 @@ Description:
 			$this->setHttpHeaders();
 			$this->setUserIp();
 			$this->setUserAgent();
+			$this->uAgentInfo = $_SERVER['HTTP_USER_AGENT']; 
 
 		}
 		//setzen des Haeders für weitere verarbeitung 
@@ -116,10 +124,59 @@ Description:
 				$this->userAgent = $userAgent;
 			} else 
 			{ 
-				$this->userAgent = "Diese Methode ist noch nicht fertig. Ihr IP lautet: ". $this->userIp;				
+				//$this->userAgent = "Diese Methode ist noch nicht fertig. Ihr IP lautet: ". $this->userIp;				
+				
+				if(preg_match('/MSIE/i',$this->uAgentInfo) && !preg_match('/Opera/i',$this->uAgentInfo))
+				{
+					$this->userAgent = 'Internet Explorer';
+				} elseif(preg_match('/Firefox/i',$this->uAgentInfo))
+				{
+					$this->userAgent = 'Mozilla Firefox';
+				} elseif(preg_match('/Chrome/i',$this->uAgentInfo))
+				{
+					$this->userAgent = 'Google Chrome';
+				} elseif(preg_match('/Safari/i',$this->uAgentInfo))
+				{
+					$this->userAgent = 'Apple Safari';
+				} elseif(preg_match('/Opera/i',$this->uAgentInfo))
+				{
+					$this->userAgent = 'Opera';
+				} elseif(preg_match('/Netscape/i',$this->uAgentInfo))
+				{
+					$this->userAgent = 'Netscape';
+				} else
+				{
+					$this->userAgent = 'Unbekannt';
+				}
 			}
 						
    		}	
+   		
+   		//Ermittlung des Betriebssystemes
+   		protected function setUserOs($userOs = null /*default Wert*/) {
+   			
+   			if(!empty($userOs))
+   			{
+   				$this->userOs = $userOs;
+   			} else
+   			{
+   				//$this->userOs = "Diese Methode ist noch nicht fertig. Ihr IP lautet: ". $this->userIp;
+   				
+   				if (preg_match('/linux/i', $this->uAgentInfo)) 
+   				{
+        				$this->userOs = 'Linux';
+    				} elseif (preg_match('/macintosh|mac os x/i', $this->uAgentInfo)) 
+    				{
+					$this->userOs = 'Macintosh';
+				} elseif (preg_match('/windows|win32/i', $this->uAgentInfo)) 
+				{
+					$this->userOs = 'Windows';
+				} else
+				{
+					$this->userOs = 'Unbekannt';
+				}
+   			}
+   		}
 			
 		// Rückgabe der IP
 		public function getIp() {
@@ -134,6 +191,12 @@ Description:
 		// Ermittelung des Browsers
 		public function getUserAgent(){
 			return $this->userAgent;
+		}
+		
+				
+		// Ermittelung des Betriebssystemes
+		public function getUserAgent(){
+			return $this->userOs;
 		}
 		
 	}	
