@@ -59,6 +59,7 @@ Description:
 			$this->setHttpHeaders();
 			$this->setUserIp();
 			$this->setUserAgent();
+			$this->setUserOs();
 			$this->uAgentInfo = $_SERVER['HTTP_USER_AGENT']; 
 
 		}
