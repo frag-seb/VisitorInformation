@@ -14,19 +14,19 @@ Description:
     {	
 		// User IP ermitteln
 		protected $userIp = null;
-		
+
 		// User Port ermitteln
-		
 		protected $userPort = null;
-		
+
 		// User Informationen (extern) ob wir das brauchen ?? mal schauen
-		
 		protected $userAgent = null;
-		
+
 		// User Operating System
-		
 		protected $userOs = null;
-		
+
+		// User IP ermitteln
+		protected $uGetBrowser = null;
+
 		/*	
 			HTTP_HOST, HTTP_CONNECTION, HTTP_USER_AGENT, 
 			HTTP_ACCEPT, HTTP_REFERER, HTTP_ACCEPT_ENCODING, 
@@ -37,7 +37,7 @@ Description:
     		
     		//store information from $_SERVER['HTTP_USER_AGENT']
     		private $uAgentInfo;
-		
+
 		/*
 		ToDo:
 		- setUserPort()
@@ -53,10 +53,11 @@ Description:
 		
 		- Description im Kopf der Class		
 		*/
-		
+
 		function __construct(){
-			
+
 			$this->uAgentInfo = $_SERVER['HTTP_USER_AGENT'];
+			$this->uGetBrowser = get_browser(null, true);
 			$this->setHttpHeaders();
 			$this->setUserIp();
 			$this->setUserAgent();
@@ -65,7 +66,7 @@ Description:
 		}
 		//setzen des Haeders für weitere verarbeitung 
 		protected function setHttpHeaders($httpHeaders = null /*default Wert*/){
-			
+
 			 if(!empty($httpHeaders))
 			 {
 				$this->httpHeaders = $httpHeaders;
@@ -75,38 +76,37 @@ Description:
 					if(substr($key,0,5)=='HTTP_')
 					{
 						$this->httpHeaders[$key] = $value; // HTTP_X_FORWARDED_FOR
-						
+
 					}elseif(substr($key,0,7)=='REMOTE_')
 					{
-						
+
 						$this->httpHeaders[$key] = $value;
 					}
 				}
 			}
-		}				
-
+		}
 		
 		// Ermittelung der IP
 		protected function setUserIp($userIp = null /*default Wert*/){
 			// "HTTP_CLIENT_IP" lass ich mal aussen vor weiß nicht was das genau ausgibt
-			
+
 			if(!empty($userIp))
 			{
 				$this->userIp = $userIp;
 			} else 
 			{ 
 				$this->userIp = (isset($this->httpHeaders['REMOTE_ADDR'])) ? $this->httpHeaders['REMOTE_ADDR'] : null;
-				
+
 				if(empty($this->userIp)){
 					$this->userIp = (isset($this->httpHeaders['HTTP_X_FORWARDED_FOR'])) ? $this->httpHeaders['HTTP_X_FORWARDED_FOR'] : null;
 				}				
 			}	
-				
+
  		}
-		
+
 		// Ermittelung der Port
 		protected function setUserPort($userPort = null /*default Wert*/){
-			
+
 			if(!empty($userPort))
 			{
 				$this->userPort = $userPort;
@@ -114,43 +114,20 @@ Description:
 			{ 
 				$this->userPort = "Diese Methode ist noch nicht fertig. Ihr IP lautet: ". $this->userIp;				
 			}
-		
+
 		}
-		
+
 		// Ermittelung des Browsers
 		protected function setUserAgent($userAgent = null /*default Wert*/){
-			
+
 			if(!empty($userAgent))
 			{
 				$this->userAgent = $userAgent;
 			} else 
-			{ 
-				//$this->userAgent = "Diese Methode ist noch nicht fertig. Ihr IP lautet: ". $this->userIp;				
-				
-				if(preg_match('/MSIE/i',$this->uAgentInfo) && !preg_match('/Opera/i',$this->uAgentInfo))
-				{
-					$this->userAgent = 'Internet Explorer';
-				} elseif(preg_match('/Firefox/i',$this->uAgentInfo))
-				{
-					$this->userAgent = 'Mozilla Firefox';
-				} elseif(preg_match('/Chrome/i',$this->uAgentInfo))
-				{
-					$this->userAgent = 'Google Chrome';
-				} elseif(preg_match('/Safari/i',$this->uAgentInfo))
-				{
-					$this->userAgent = 'Apple Safari';
-				} elseif(preg_match('/Opera/i',$this->uAgentInfo))
-				{
-					$this->userAgent = 'Opera';
-				} elseif(preg_match('/Netscape/i',$this->uAgentInfo))
-				{
-					$this->userAgent = 'Netscape';
-				} else
-				{
-					$this->userAgent = 'Unbekannt';
-				}
+			{ 	
+				$this->userAgent = (!empty($this->uGetBrowser['comment']))? $this->uGetBrowser['comment'] : "unbekannt";
 			}
-						
+
    		}	
    		
    		//Ermittlung des Betriebssystemes
@@ -161,45 +138,31 @@ Description:
    				$this->userOs = $userOs;
    			} else
    			{
-   				//$this->userOs = "Diese Methode ist noch nicht fertig. Ihr IP lautet: ". $this->userIp;
-   				
-   				if (preg_match('/linux/i', $this->uAgentInfo)) 
-   				{
-        				$this->userOs = 'Linux';
-    				} elseif (preg_match('/macintosh|mac os x/i', $this->uAgentInfo)) 
-    				{
-					$this->userOs = 'Macintosh';
-				} elseif (preg_match('/windows|win32/i', $this->uAgentInfo)) 
-				{
-					$this->userOs = 'Windows';
-				} else
-				{
-					$this->userOs = 'Unbekannt';
-				}
+   				$this->userOs = (!empty($this->uGetBrowser['platform']))? $this->uGetBrowser['platform'] : "unbekannt";
    			}
    		}
-			
+
 		// Rückgabe der IP
 		public function getIp() {
 			return $this->userIp;
 		}
-		
+
 		// Ermittelung des Ports
 		public function getPort() {
 			return $this->userPort;
 		}
-		
+
 		// Ermittelung des Browsers
 		public function getUserAgent(){
 			return $this->userAgent;
 		}
-		
-				
+
+
 		// Ermittelung des Betriebssystemes
 		public function getUserOs(){
 			return $this->userOs;
 		}
-		
+
 	}	
 
 ?>
