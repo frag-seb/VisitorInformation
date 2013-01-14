@@ -196,7 +196,7 @@ Description:
 		
 				
 		// Ermittelung des Betriebssystemes
-		public function getUserAgent(){
+		public function getUserOs(){
 			return $this->userOs;
 		}
 		
