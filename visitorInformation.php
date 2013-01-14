@@ -55,12 +55,12 @@ Description:
 		*/
 		
 		function __construct(){
-
+			
+			$this->uAgentInfo = $_SERVER['HTTP_USER_AGENT'];
 			$this->setHttpHeaders();
 			$this->setUserIp();
 			$this->setUserAgent();
-			$this->setUserOs();
-			$this->uAgentInfo = $_SERVER['HTTP_USER_AGENT']; 
+			$this->setUserOs();			
 
 		}
 		//setzen des Haeders für weitere verarbeitung 
