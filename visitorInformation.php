@@ -137,7 +137,5 @@ Description:
 		}
 		
 	}	
-	
-	$visitor = new visitorInformation();
-	echo $visitor->getUserAgent();
+
 ?>
