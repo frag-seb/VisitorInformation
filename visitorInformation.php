@@ -35,7 +35,15 @@ Description:
 		ToDo:
 		- setUserPort()
 		- setUserAgent()
+		
+		- Betriebssystem-Erkennung
+		- Browser-Erkennung
+		- Herkunft (Land)
+		- Verweis (wo kommt der User)
+		- Provider
+		
 		- HTTP_CLIENT_IP <- doch noch mal als Erste abfrage einbauen.
+		
 		- Description im Kopf der Class		
 		*/
 		
